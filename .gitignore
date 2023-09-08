@@ -32,3 +32,6 @@ pnpm-debug.log*
 /.vscode/
 /.history/
 /svn clear.bat
+dist.zip
+src/assets/loginmini/icon/jeecg_ad_text - 副本.png
+src/assets/loginmini/icon/jeecg_logo - 副本.png
