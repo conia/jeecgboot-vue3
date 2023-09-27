@@ -118,6 +118,7 @@
    */
   function handleDetail(record) {
     iframeUrl.value = `${glob.uploadUrl}/sys/annountCement/show/${record.id}?token=${getToken()}`;
+    console.log(iframeUrl.value)
     openDetail(true);
   }
   /**

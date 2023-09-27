@@ -3,6 +3,7 @@ import {FormSchema} from '/@/components/Table';
 import { rules} from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
 import {JVxeTypes,JVxeColumn} from '/@/components/jeecg/JVxeTable/types'
+import {getRunStatusColor} from './util/OmUtil'
 //列表数据
 export const columns: BasicColumn[] = [
    {
@@ -10,11 +11,7 @@ export const columns: BasicColumn[] = [
     align:"center",
     dataIndex: 'modelName'
    },
-   {
-    title: '本地路径',
-    align:"center",
-    dataIndex: 'modelPath'
-   },
+   
    {
     title: '模型来源',
     align:"center",
@@ -24,6 +21,52 @@ export const columns: BasicColumn[] = [
     title: '类型',
     align:"center",
     dataIndex: 'modelType_dictText'
+   },
+   
+   {
+    title: '基础模型',
+    align:"center",
+    dataIndex: 'baseModeId_dictText'
+   },
+  //  {
+  //   title: '训练状态',
+  //   align:"center",
+  //   dataIndex: 'modelTrainStatus_dictText'
+  //  },
+  //  {
+  //   title: '发布状态',
+  //   align:"center",
+  //   dataIndex: 'modelStatus_dictText'
+  //  },
+   {
+    title: '训练状态',
+    align:"center",
+    dataIndex: 'trainTaskId_dictText',
+    width: 100,
+    customRender: ({ text }) => {
+      const color = getRunStatusColor(text);
+      return render.renderTag(render.renderDict(text, 'model_run_status'), color);
+    },
+   },
+   {
+    title: '评估状态',
+    align:"center",
+    dataIndex: 'evalTaskId_dictText',
+    width: 100,
+    customRender: ({ text }) => {
+      const color = getRunStatusColor(text);
+      return render.renderTag(render.renderDict(text, 'model_run_status'), color);
+    },
+   },
+   {
+    title: '发布状态',
+    align:"center",
+    dataIndex: 'deployTaskId_dictText',
+    width: 100,
+    customRender: ({ text }) => {
+      const color = getRunStatusColor(text);
+      return render.renderTag(render.renderDict(text, 'model_run_status'), color);
+    },
    },
    {
     title: '参数大小',
@@ -41,20 +84,20 @@ export const columns: BasicColumn[] = [
     dataIndex: 'totalSize'
    },
    {
-    title: '基础模型',
+    title: '本地路径',
     align:"center",
-    dataIndex: 'baseModeId_dictText'
+    dataIndex: 'modelPath'
    },
-   {
-    title: '训练状态',
-    align:"center",
-    dataIndex: 'modelTrainStatus_dictText'
-   },
-   {
-    title: '发布状态',
-    align:"center",
-    dataIndex: 'modelStatus_dictText'
-   },
+  //  {
+  //   title: '评估任务ID',
+  //   align:"center",
+  //   dataIndex: 'evalTaskId'
+  //  },
+  //  {
+  //   title: '发布任务ID',
+  //   align:"center",
+  //   dataIndex: 'deployTaskId'
+  //  },
 ];
 //查询数据
 export const searchFormSchema: FormSchema[] = [
@@ -87,7 +130,7 @@ export const searchFormSchema: FormSchema[] = [
       field: "baseModeId",
       component: 'JDictSelectTag',
       componentProps:{
-          dictCode:"om_model where model_train_status = 3 ,model_name,id"
+        dictCode:"om_model m left join om_task t on m.train_task_id = t.id  where t.status = 5 or m.model_src = 1,model_name,m.id"
       },
       colProps: {span: 6},
  	},

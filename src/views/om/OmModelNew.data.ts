@@ -136,7 +136,7 @@ export const formSchema: FormSchema[] = [
     field: 'baseModeId',
     component: 'JDictSelectTag',
     componentProps:{
-        dictCode:"om_model where model_train_status = 3 ,model_name,id"
+      dictCode:"om_model m left join om_task t on m.train_task_id = t.id  where t.status = 5 or m.model_src = 1,model_name,m.id"
      },
     dynamicRules: ({model,schema}) => {
       return [

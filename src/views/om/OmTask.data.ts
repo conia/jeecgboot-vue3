@@ -3,6 +3,7 @@ import { FormSchema } from '/@/components/Table';
 import { rules } from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
 import { getCurDT } from '/@/utils/dateUtil';
+import {getRunStatusColor} from './util/OmUtil'
 
 //列表数据
 export const columns: BasicColumn[] = [
@@ -11,17 +12,32 @@ export const columns: BasicColumn[] = [
   {
     title: '任务名称',
     align: "center",
-    dataIndex: 'name'
+    dataIndex: 'name',
+    width: 200,
   },
   {
     title: '任务类型',
     align: "center",
-    dataIndex: 'taskType_dictText'
+    dataIndex: 'taskType_dictText',
+    width: 100,
   },
   {
     title: '模型',
     align: "center",
     dataIndex: 'modelId_dictText'
+  },
+  
+
+  {
+    title: '任务状态',
+    align: "center",
+    dataIndex: 'status',
+    width: 100,
+    customRender: ({ text }) => {
+      console.log(text);
+      const color = getRunStatusColor(text);
+      return render.renderTag(render.renderDict(text, 'model_run_status'), color);
+    },
   },
   {
     title: '训练参数',
@@ -32,6 +48,11 @@ export const columns: BasicColumn[] = [
     title: '环境变量',
     align: "center",
     dataIndex: 'envs'
+  },  
+  {
+    title: '任务信息',
+    align: "center",
+    dataIndex: 'message'
   },
   {
     title: '开始时间',
@@ -42,17 +63,6 @@ export const columns: BasicColumn[] = [
     title: '结束时间',
     align: "center",
     dataIndex: 'endTime'
-  },
-
-  {
-    title: '任务状态',
-    align: "center",
-    dataIndex: 'status_dictText'
-  },
-  {
-    title: '任务信息',
-    align: "center",
-    dataIndex: 'message'
   },
   {
     title: 'mlflow',
